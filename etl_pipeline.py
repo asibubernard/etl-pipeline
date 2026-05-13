@@ -77,6 +77,13 @@ def extract_all():
     merged = frames[0]
     for df in frames[1:]:
         merged = pd.merge(merged, df, on='year', how='outer')
+    
+    # Ensure all expected columns are present
+    for col in INDICATORS.values():
+        if col not in merged.columns:
+            merged[col] = float('nan')
+            log.warning(f"Column '{col}' missing from API data — filled with NaN")
+
     merged = merged.sort_values('year').reset_index(drop=True)
     log.info(f"Extracted {len(merged)} rows, {len(merged.columns)} columns")
     return merged
