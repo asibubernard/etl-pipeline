@@ -1,0 +1,65 @@
+2026-05-13 14:12:56,108 [INFO] =======================================================
+2026-05-13 14:12:56,109 [INFO] Ghana Financial Data ETL Pipeline — Starting
+2026-05-13 14:12:56,109 [INFO] Run timestamp: 2026-05-13 14:12:56
+2026-05-13 14:12:56,109 [INFO] =======================================================
+2026-05-13 14:12:56,109 [INFO] === EXTRACT phase starting ===
+2026-05-13 14:12:56,109 [INFO] Extracting inflation_pct (FP.CPI.TOTL.ZG)
+2026-05-13 14:12:56,177 [ERROR] Failed to extract FP.CPI.TOTL.ZG: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/FP.CPI.TOTL.ZG?format=json&date=2000:2023&per_page=100
+2026-05-13 14:12:56,178 [INFO] Extracting gdp_growth_pct (NY.GDP.MKTP.KD.ZG)
+2026-05-13 14:12:56,246 [ERROR] Failed to extract NY.GDP.MKTP.KD.ZG: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/NY.GDP.MKTP.KD.ZG?format=json&date=2000:2023&per_page=100
+2026-05-13 14:12:56,247 [INFO] Extracting official_fx_rate (PA.NUS.FCRF)
+2026-05-13 14:12:56,292 [ERROR] Failed to extract PA.NUS.FCRF: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/PA.NUS.FCRF?format=json&date=2000:2023&per_page=100
+2026-05-13 14:12:56,293 [INFO] Extracting private_credit_pct_gdp (FS.AST.PRVT.GD.ZS)
+2026-05-13 14:12:56,340 [ERROR] Failed to extract FS.AST.PRVT.GD.ZS: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/FS.AST.PRVT.GD.ZS?format=json&date=2000:2023&per_page=100
+2026-05-13 14:12:56,341 [INFO] Extracting central_govt_debt_pct_gdp (GC.DOD.TOTL.GD.ZS)
+2026-05-13 14:12:56,373 [ERROR] Failed to extract GC.DOD.TOTL.GD.ZS: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/GC.DOD.TOTL.GD.ZS?format=json&date=2000:2023&per_page=100
+2026-05-13 14:12:56,374 [INFO] Extracting current_account_pct_gdp (BN.CAB.XOKA.GD.ZS)
+2026-05-13 14:12:56,408 [ERROR] Failed to extract BN.CAB.XOKA.GD.ZS: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/BN.CAB.XOKA.GD.ZS?format=json&date=2000:2023&per_page=100
+2026-05-13 14:12:56,409 [INFO] Extracting trade_pct_gdp (NE.TRD.GNFS.ZS)
+2026-05-13 14:12:56,441 [ERROR] Failed to extract NE.TRD.GNFS.ZS: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/NE.TRD.GNFS.ZS?format=json&date=2000:2023&per_page=100
+2026-05-13 14:12:56,441 [INFO] Extracting unemployment_pct (SL.UEM.TOTL.ZS)
+2026-05-13 14:12:56,486 [ERROR] Failed to extract SL.UEM.TOTL.ZS: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/SL.UEM.TOTL.ZS?format=json&date=2000:2023&per_page=100
+2026-05-13 14:12:56,487 [WARNING] No data extracted from API — using fallback dataset
+2026-05-13 14:12:56,488 [INFO] Using fallback dataset
+2026-05-13 14:12:56,488 [INFO] === TRANSFORM phase starting ===
+2026-05-13 14:13:01,919 [INFO] =======================================================
+2026-05-13 14:13:01,919 [INFO] Ghana Financial Data ETL Pipeline — Starting
+2026-05-13 14:13:01,919 [INFO] Run timestamp: 2026-05-13 14:13:01
+2026-05-13 14:13:01,919 [INFO] =======================================================
+2026-05-13 14:13:01,919 [INFO] === EXTRACT phase starting ===
+2026-05-13 14:13:01,919 [INFO] Extracting inflation_pct (FP.CPI.TOTL.ZG)
+2026-05-13 14:13:01,974 [ERROR] Failed to extract FP.CPI.TOTL.ZG: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/FP.CPI.TOTL.ZG?format=json&date=2000:2023&per_page=100
+2026-05-13 14:13:01,975 [INFO] Extracting gdp_growth_pct (NY.GDP.MKTP.KD.ZG)
+2026-05-13 14:13:02,026 [ERROR] Failed to extract NY.GDP.MKTP.KD.ZG: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/NY.GDP.MKTP.KD.ZG?format=json&date=2000:2023&per_page=100
+2026-05-13 14:13:02,027 [INFO] Extracting official_fx_rate (PA.NUS.FCRF)
+2026-05-13 14:13:02,077 [ERROR] Failed to extract PA.NUS.FCRF: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/PA.NUS.FCRF?format=json&date=2000:2023&per_page=100
+2026-05-13 14:13:02,077 [INFO] Extracting private_credit_pct_gdp (FS.AST.PRVT.GD.ZS)
+2026-05-13 14:13:02,110 [ERROR] Failed to extract FS.AST.PRVT.GD.ZS: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/FS.AST.PRVT.GD.ZS?format=json&date=2000:2023&per_page=100
+2026-05-13 14:13:02,111 [INFO] Extracting central_govt_debt_pct_gdp (GC.DOD.TOTL.GD.ZS)
+2026-05-13 14:13:02,143 [ERROR] Failed to extract GC.DOD.TOTL.GD.ZS: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/GC.DOD.TOTL.GD.ZS?format=json&date=2000:2023&per_page=100
+2026-05-13 14:13:02,144 [INFO] Extracting current_account_pct_gdp (BN.CAB.XOKA.GD.ZS)
+2026-05-13 14:13:02,197 [ERROR] Failed to extract BN.CAB.XOKA.GD.ZS: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/BN.CAB.XOKA.GD.ZS?format=json&date=2000:2023&per_page=100
+2026-05-13 14:13:02,198 [INFO] Extracting trade_pct_gdp (NE.TRD.GNFS.ZS)
+2026-05-13 14:13:02,231 [ERROR] Failed to extract NE.TRD.GNFS.ZS: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/NE.TRD.GNFS.ZS?format=json&date=2000:2023&per_page=100
+2026-05-13 14:13:02,232 [INFO] Extracting unemployment_pct (SL.UEM.TOTL.ZS)
+2026-05-13 14:13:02,265 [ERROR] Failed to extract SL.UEM.TOTL.ZS: 403 Client Error: Forbidden for url: https://api.worldbank.org/v2/country/GH/indicator/SL.UEM.TOTL.ZS?format=json&date=2000:2023&per_page=100
+2026-05-13 14:13:02,266 [WARNING] No data extracted from API — using fallback dataset
+2026-05-13 14:13:02,267 [INFO] Using fallback dataset
+2026-05-13 14:13:02,267 [INFO] === TRANSFORM phase starting ===
+2026-05-13 14:13:02,271 [INFO]   Missing values: 0 → 0 after fill
+2026-05-13 14:13:02,275 [INFO]   Rows: 24 → 24 | Columns: 15
+2026-05-13 14:13:02,275 [INFO] Transform complete ✓
+2026-05-13 14:13:02,275 [INFO] === VALIDATE phase ===
+2026-05-13 14:13:02,277 [INFO]   ✓ PASS — No duplicate years
+2026-05-13 14:13:02,277 [INFO]   ✓ PASS — Year range 2000-2023
+2026-05-13 14:13:02,277 [INFO]   ✓ PASS — Inflation > -5%
+2026-05-13 14:13:02,277 [INFO]   ✓ PASS — GDP growth in [-20%, 30%]
+2026-05-13 14:13:02,277 [INFO]   ✓ PASS — FX rate positive
+2026-05-13 14:13:02,277 [INFO]   ✓ PASS — No fully null rows
+2026-05-13 14:13:02,277 [INFO] All validation checks passed ✓
+2026-05-13 14:13:02,277 [INFO] === LOAD phase starting ===
+2026-05-13 14:13:02,301 [INFO]   Loaded 24 rows into 'ghana_macro_indicators'
+2026-05-13 14:13:02,311 [INFO]   Loaded summary table 'macro_summary'
+2026-05-13 14:13:02,323 [INFO]   Loaded 'yearly_changes' table
+2026-05-13 14:13:02,323 [INFO] Database saved to: /home/claude/projects/project2-etl-pipeline/data/ghana_finance.db ✓
+2026-05-13 14:13:02,324 [INFO] Pipeline completed successfully ✓
