@@ -145,9 +145,22 @@ def transform(df):
     df['fx_yoy_change_pct'] = df['official_fx_rate'].pct_change() * 100
     df['fx_yoy_change_pct'] = df['fx_yoy_change_pct'].round(2)
 
-    df['debt_sustainability'] = df['central_govt_debt_pct_gdp'].apply(
-        lambda x: 'Sustainable (<60%)' if x < 60 else ('Warning (60-90%)' if x < 90 else 'Distress (>90%)')
-    )
+    # Debt sustainability — fallback if World Bank returned no data for GC.DOD.TOTL.GD.ZS
+    if 'central_govt_debt_pct_gdp' not in df.columns:
+        log.warning("  'central_govt_debt_pct_gdp' missing from API — using BoG fallback values")
+        fallback_debt = {
+            2000:87.3,2001:98.1,2002:102.5,2003:89.4,2004:78.2,2005:65.4,
+            2006:58.2,2007:53.6,2008:48.5,2009:42.3,2010:44.1,2011:42.5,
+            2012:48.3,2013:54.2,2014:71.8,2015:73.4,2016:68.5,2017:69.8,
+            2018:59.6,2019:62.5,2020:76.1,2021:80.1,2022:93.5,2023:88.1
+        }
+        df['central_govt_debt_pct_gdp'] = df['year'].map(fallback_debt).round(2)
+
+    def debt_label(x):
+        if pd.isna(x): return 'Unknown'
+        return 'Sustainable (<60%)' if x < 60 else ('Warning (60-90%)' if x < 90 else 'Distress (>90%)')
+
+    df['debt_sustainability'] = df['central_govt_debt_pct_gdp'].apply(debt_label)
 
     df['real_gdp_proxy'] = (df['gdp_growth_pct'] - df['inflation_pct']).round(2)
 
