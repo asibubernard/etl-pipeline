@@ -2,7 +2,7 @@
 
 A production-style Extract-Transform-Load (ETL) pipeline that ingests Ghana macrofinancial data from the **World Bank API**, applies data quality transformations, runs validation checks, and loads into a **SQLite data warehouse** — with a Flask web UI to trigger and monitor runs.
 
-**Live Demo:** [your-app.onrender.com](#) &nbsp;|&nbsp; **Portfolio:** [linkedin.com/in/asibubernard](https://linkedin.com/in/asibubernard)
+**Live Demo:** [https://etl-pipeline-2hlv.onrender.com/] &nbsp;|&nbsp; **Portfolio:** [linkedin.com/in/asibubernard](https://linkedin.com/in/asibubernard)
 
 ---
 
