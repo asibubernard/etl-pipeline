@@ -6,74 +6,49 @@
   <title>Ghana Financial Data ETL Pipeline</title>
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --navy:#1B3A6B; --red:#C8102E; --gold:#F4A900;
-      --green:#16a34a; --bg:#F0F4F8; --card:#fff;
-      --muted:#6B7280; --border:#E2E8F0;
-    }
-    body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:#1a202c; }
-    header { background:var(--navy); color:#fff; padding:16px 32px; }
-    header h1 { font-size:1.2rem; }
-    header p  { font-size:0.75rem; opacity:.7; margin-top:3px; }
-    .badge { display:inline-block; padding:2px 10px; border-radius:99px; font-size:0.72rem; font-weight:700; margin-left:10px; }
-    .badge.ok  { background:#dcfce7; color:#166534; }
-    .badge.no  { background:#fee2e2; color:#991b1b; }
-
-    main { max-width:1300px; margin:0 auto; padding:28px 24px; }
-
-    /* Pipeline Steps */
-    .pipeline { display:flex; gap:0; margin-bottom:28px; align-items:stretch; }
-    .step { flex:1; background:var(--card); border:1px solid var(--border);
-            padding:18px 16px; text-align:center; position:relative; }
-    .step:not(:last-child)::after {
-      content:'→'; position:absolute; right:-18px; top:50%;
-      transform:translateY(-50%); font-size:1.4rem; color:var(--navy); z-index:1;
-    }
-    .step:first-child { border-radius:10px 0 0 10px; }
-    .step:last-child  { border-radius:0 10px 10px 0; }
-    .step-icon { font-size:1.8rem; }
-    .step-name { font-weight:700; color:var(--navy); font-size:0.9rem; margin:6px 0 4px; }
-    .step-desc { font-size:0.75rem; color:var(--muted); }
-
-    /* Run Button */
-    .run-area { display:flex; align-items:center; gap:16px; margin-bottom:24px; }
-    .btn-run { background:var(--navy); color:#fff; border:none; padding:12px 28px;
-               border-radius:8px; font-size:0.95rem; font-weight:700; cursor:pointer;
-               transition:background .2s; }
-    .btn-run:hover { background:#2a52a0; }
-    .btn-run:disabled { background:#9ca3af; cursor:not-allowed; }
-    .status { font-size:0.85rem; color:var(--muted); }
-
-    /* Log */
-    .log-box { background:#111827; color:#86efac; font-family:monospace; font-size:0.78rem;
-               border-radius:8px; padding:14px 16px; height:180px; overflow-y:auto;
-               margin-bottom:24px; white-space:pre-wrap; }
-
-    /* Data table */
-    .section-title { font-size:0.85rem; font-weight:700; color:var(--navy); text-transform:uppercase;
-                     letter-spacing:.05em; margin-bottom:10px; }
-    .table-wrap { background:var(--card); border-radius:10px; overflow:auto; box-shadow:0 1px 5px rgba(0,0,0,.07); margin-bottom:24px; }
-    table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-    th { background:var(--navy); color:#fff; padding:10px 14px; text-align:left; font-size:0.78rem; white-space:nowrap; }
-    td { padding:8px 14px; border-bottom:1px solid var(--border); }
-    tr:last-child td { border-bottom:none; }
-    tr:nth-child(even) td { background:#F8FAFC; }
-
-    /* Charts */
-    .charts { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
-    .chart-card { background:var(--card); border-radius:10px; padding:16px; box-shadow:0 1px 5px rgba(0,0,0,.07); }
-    .chart-card h3 { font-size:0.82rem; color:var(--navy); font-weight:700; text-transform:uppercase; margin-bottom:8px; }
-    .chart { height:220px; }
-
-    footer { text-align:center; color:var(--muted); font-size:0.75rem; padding:24px 0 8px; border-top:1px solid var(--border); }
-    @media(max-width:800px) { .pipeline{flex-direction:column;} .step:not(:last-child)::after{content:'↓';right:50%;top:auto;bottom:-18px;transform:translateX(50%);} .charts{grid-template-columns:1fr;} }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--navy:#1B3A6B;--red:#C8102E;--gold:#F4A900;--green:#16a34a;--bg:#F0F4F8;--card:#fff;--muted:#6B7280;--border:#E2E8F0;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#1a202c;}
+    header{background:var(--navy);color:#fff;padding:16px 32px;}
+    header h1{font-size:1.2rem;}
+    header p{font-size:0.75rem;opacity:.7;margin-top:3px;}
+    .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:0.72rem;font-weight:700;margin-left:10px;}
+    .badge.ok{background:#dcfce7;color:#166534;}
+    .badge.no{background:#fee2e2;color:#991b1b;}
+    main{max-width:1300px;margin:0 auto;padding:28px 24px;}
+    .pipeline{display:flex;gap:0;margin-bottom:28px;align-items:stretch;}
+    .step{flex:1;background:var(--card);border:1px solid var(--border);padding:18px 16px;text-align:center;position:relative;}
+    .step:not(:last-child)::after{content:'→';position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--navy);z-index:1;}
+    .step:first-child{border-radius:10px 0 0 10px;}
+    .step:last-child{border-radius:0 10px 10px 0;}
+    .step-icon{font-size:1.8rem;}
+    .step-name{font-weight:700;color:var(--navy);font-size:0.9rem;margin:6px 0 4px;}
+    .step-desc{font-size:0.75rem;color:var(--muted);}
+    .run-area{display:flex;align-items:center;gap:16px;margin-bottom:24px;}
+    .btn-run{background:var(--navy);color:#fff;border:none;padding:12px 28px;border-radius:8px;font-size:0.95rem;font-weight:700;cursor:pointer;transition:background .2s;}
+    .btn-run:hover{background:#2a52a0;}
+    .btn-run:disabled{background:#9ca3af;cursor:not-allowed;}
+    .status{font-size:0.85rem;color:var(--muted);}
+    .log-box{background:#111827;color:#86efac;font-family:monospace;font-size:0.78rem;border-radius:8px;padding:14px 16px;height:180px;overflow-y:auto;margin-bottom:24px;white-space:pre-wrap;}
+    .section-title{font-size:0.85rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;}
+    .table-wrap{background:var(--card);border-radius:10px;overflow:auto;box-shadow:0 1px 5px rgba(0,0,0,.07);margin-bottom:24px;}
+    table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+    th{background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-size:0.78rem;white-space:nowrap;}
+    td{padding:8px 14px;border-bottom:1px solid var(--border);}
+    tr:last-child td{border-bottom:none;}
+    tr:nth-child(even) td{background:#F8FAFC;}
+    .charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+    .chart-card{background:var(--card);border-radius:10px;padding:16px;box-shadow:0 1px 5px rgba(0,0,0,.07);}
+    .chart-card h3{font-size:0.82rem;color:var(--navy);font-weight:700;text-transform:uppercase;margin-bottom:8px;}
+    .chart{height:220px;}
+    footer{text-align:center;color:var(--muted);font-size:0.75rem;padding:24px 0 8px;border-top:1px solid var(--border);}
+    @media(max-width:800px){.pipeline{flex-direction:column;}.step:not(:last-child)::after{content:'↓';right:50%;top:auto;bottom:-18px;transform:translateX(50%);}.charts{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
 <header>
   <h1>🔁 Ghana Financial Data — ETL Pipeline
-    <span class="badge {{ 'ok' if db_exists else 'no' }}">
+    <span class="badge {{ 'ok' if db_exists else 'no' }}" id="db-badge">
       {{ 'DB Ready' if db_exists else 'Not Run Yet' }}
     </span>
   </h1>
@@ -81,7 +56,6 @@
 </header>
 
 <main>
-  <!-- Pipeline Flow -->
   <div class="pipeline">
     <div class="step"><div class="step-icon">🌐</div><div class="step-name">Extract</div><div class="step-desc">World Bank API<br>8 indicators · 24 years</div></div>
     <div class="step"><div class="step-icon">⚙️</div><div class="step-name">Transform</div><div class="step-desc">Clean · Validate · Enrich<br>Derived columns</div></div>
@@ -89,14 +63,12 @@
     <div class="step"><div class="step-icon">🗄️</div><div class="step-name">Load</div><div class="step-desc">SQLite · 3 tables<br>Fact + Summary + Changes</div></div>
   </div>
 
-  <!-- Run -->
   <div class="run-area">
     <button class="btn-run" id="btn-run" onclick="runPipeline()">▶ Run Pipeline Now</button>
     <span class="status" id="status">Click to extract, transform &amp; load Ghana macro data.</span>
   </div>
   <div class="log-box" id="log">Waiting for pipeline run…</div>
 
-  <!-- Data Table -->
   <div class="section-title">📋 Loaded Data — ghana_macro_indicators</div>
   <div class="table-wrap">
     <table id="data-table">
@@ -105,9 +77,8 @@
     </table>
   </div>
 
-  <!-- Charts -->
   <div class="charts">
-    <div class="chart-card"><h3>Inflation & GDP Growth (%)</h3><div id="c1" class="chart"></div></div>
+    <div class="chart-card"><h3>Inflation &amp; GDP Growth (%)</h3><div id="c1" class="chart"></div></div>
     <div class="chart-card"><h3>USD/GHS Exchange Rate</h3><div id="c2" class="chart"></div></div>
     <div class="chart-card"><h3>Govt Debt (% of GDP)</h3><div id="c3" class="chart"></div></div>
     <div class="chart-card"><h3>Private Sector Credit (% GDP)</h3><div id="c4" class="chart"></div></div>
@@ -118,71 +89,106 @@
 
 <script>
 const cfg = {responsive:true, displayModeBar:false};
-const lay = (y) => ({margin:{t:8,r:8,b:36,l:46}, paper_bgcolor:'transparent', plot_bgcolor:'transparent',
-  font:{family:'Segoe UI',size:10,color:'#4B5563'}, xaxis:{gridcolor:'#F1F5F9'},
-  yaxis:{gridcolor:'#F1F5F9', title:y||''}, hovermode:'x unified', showlegend:true,
-  legend:{orientation:'h',y:-0.35,font:{size:9}}});
+const lay = (y) => ({
+  margin:{t:8,r:8,b:36,l:46},
+  paper_bgcolor:'transparent', plot_bgcolor:'transparent',
+  font:{family:'Segoe UI',size:10,color:'#4B5563'},
+  xaxis:{gridcolor:'#F1F5F9'},
+  yaxis:{gridcolor:'#F1F5F9', title:y||''},
+  hovermode:'x unified', showlegend:true,
+  legend:{orientation:'h',y:-0.35,font:{size:9}}
+});
 
 async function runPipeline() {
-  const btn = document.getElementById('btn-run');
+  const btn    = document.getElementById('btn-run');
   const status = document.getElementById('status');
-  const log = document.getElementById('log');
+  const log    = document.getElementById('log');
   btn.disabled = true;
   btn.textContent = '⏳ Running…';
   status.textContent = 'Extracting from World Bank API…';
   log.textContent = 'Pipeline starting…\n';
 
-  const res = await fetch('/run-pipeline', {method:'POST'});
-  const data = await res.json();
-  log.textContent = data.output;
-  log.scrollTop = log.scrollHeight;
+  try {
+    const res  = await fetch('/run-pipeline', {method:'POST'});
+    const data = await res.json();
+    log.textContent = data.output;
+    log.scrollTop = log.scrollHeight;
 
-  if (data.success) {
-    status.textContent = '✅ Pipeline complete! Data loaded successfully.';
-    await loadData();
-  } else {
-    status.textContent = '❌ Pipeline encountered errors. See log above.';
+    if (data.success) {
+      status.textContent = '✅ Pipeline complete! Loading data into charts…';
+      document.getElementById('db-badge').textContent = 'DB Ready';
+      document.getElementById('db-badge').className = 'badge ok';
+      // Small delay to ensure DB is flushed before reading
+      await new Promise(r => setTimeout(r, 600));
+      await loadData();
+      status.textContent = '✅ Pipeline complete! Data loaded successfully.';
+    } else {
+      status.textContent = '❌ Pipeline encountered errors. See log above.';
+    }
+  } catch(err) {
+    status.textContent = '❌ Network error: ' + err.message;
+    log.textContent += '\nError: ' + err.message;
   }
+
   btn.disabled = false;
   btn.textContent = '▶ Run Pipeline Again';
 }
 
 async function loadData() {
-  const res  = await fetch('/api/full');
-  const data = await res.json();
-  if (!data.year) return;
+  try {
+    const res  = await fetch('/api/full');
+    const data = await res.json();
 
-  // Table
-  const tbody = document.getElementById('table-body');
-  const rows = data.year.map((y,i) => `<tr>
-    <td>${y}</td><td>${data.inflation_pct[i]}</td>
-    <td>${data.gdp_growth_pct[i]}</td><td>${data.official_fx_rate[i]}</td>
-    <td>${data.central_govt_debt_pct_gdp?.[i]??'—'}</td>
-    <td>${data.inflation_band[i]}</td><td>${data.debt_sustainability[i]}</td>
-  </tr>`).reverse().join('');
-  tbody.innerHTML = rows;
+    if (!data.year || !Array.isArray(data.year) || data.year.length === 0) {
+      console.warn('No data yet from /api/full');
+      return;
+    }
 
-  // Charts
-  Plotly.newPlot('c1',[
-    {x:data.year,y:data.inflation_pct,name:'Inflation',type:'scatter',mode:'lines',line:{color:'#C8102E',width:2}},
-    {x:data.year,y:data.gdp_growth_pct,name:'GDP Growth',type:'scatter',mode:'lines',line:{color:'#1B3A6B',width:2,dash:'dot'}},
-  ],lay('%'),cfg);
-  Plotly.newPlot('c2',[
-    {x:data.year,y:data.official_fx_rate,name:'USD/GHS',type:'scatter',mode:'lines',
-     line:{color:'#F4A900',width:2},fill:'tozeroy',fillcolor:'rgba(244,169,0,0.08)'},
-  ],lay('GHS per USD'),cfg);
-  Plotly.newPlot('c3',[
-    {x:data.year,y:data.central_govt_debt_pct_gdp,name:'Govt Debt',type:'bar',
-     marker:{color:data.central_govt_debt_pct_gdp.map(v=>v>90?'#dc2626':v>60?'#f59e0b':'#16a34a')}},
-  ],lay('% of GDP'),cfg);
-  Plotly.newPlot('c4',[
-    {x:data.year,y:data.private_credit_pct_gdp,name:'Private Credit',type:'scatter',mode:'lines+markers',
-     line:{color:'#0d9488',width:2},marker:{size:4}},
-  ],lay('% of GDP'),cfg);
+    // Table — newest year first
+    const tbody = document.getElementById('table-body');
+    const indices = [...data.year.keys()].reverse();
+    tbody.innerHTML = indices.map(i => `<tr>
+      <td><strong>${data.year[i]}</strong></td>
+      <td>${data.inflation_pct[i] ?? '—'}</td>
+      <td>${data.gdp_growth_pct[i] ?? '—'}</td>
+      <td>${data.official_fx_rate[i] ?? '—'}</td>
+      <td>${data.central_govt_debt_pct_gdp?.[i] ?? '—'}</td>
+      <td>${data.inflation_band?.[i] ?? '—'}</td>
+      <td>${data.debt_sustainability?.[i] ?? '—'}</td>
+    </tr>`).join('');
+
+    // Chart 1: Inflation & GDP
+    Plotly.newPlot('c1', [
+      {x:data.year, y:data.inflation_pct,  name:'Inflation (%)',   type:'scatter', mode:'lines', line:{color:'#C8102E',width:2}},
+      {x:data.year, y:data.gdp_growth_pct, name:'GDP Growth (%)',  type:'scatter', mode:'lines', line:{color:'#1B3A6B',width:2,dash:'dot'}},
+    ], lay('%'), cfg);
+
+    // Chart 2: FX Rate
+    Plotly.newPlot('c2', [
+      {x:data.year, y:data.official_fx_rate, name:'USD/GHS', type:'scatter', mode:'lines',
+       line:{color:'#F4A900',width:2}, fill:'tozeroy', fillcolor:'rgba(244,169,0,0.08)'},
+    ], lay('GHS per USD'), cfg);
+
+    // Chart 3: Govt Debt
+    const debt = data.central_govt_debt_pct_gdp || [];
+    Plotly.newPlot('c3', [
+      {x:data.year, y:debt, name:'Govt Debt', type:'bar',
+       marker:{color: debt.map(v => v > 90 ? '#dc2626' : v > 60 ? '#f59e0b' : '#16a34a')}},
+    ], lay('% of GDP'), cfg);
+
+    // Chart 4: Private Credit
+    Plotly.newPlot('c4', [
+      {x:data.year, y:data.private_credit_pct_gdp, name:'Private Credit', type:'scatter',
+       mode:'lines+markers', line:{color:'#0d9488',width:2}, marker:{size:4}},
+    ], lay('% of GDP'), cfg);
+
+  } catch(err) {
+    console.error('loadData error:', err);
+  }
 }
 
-// Load data on page load if DB exists
-{% if db_exists %}loadData();{% endif %}
+// Always try on page load — handles case where DB already exists
+loadData();
 </script>
 </body>
 </html>
