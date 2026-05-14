@@ -16,8 +16,8 @@ import os
 from datetime import datetime
 
 # ── CONFIG ──────────────────────────────────────────────────────────────
-DB_PATH   = os.path.join(os.path.dirname(__file__), 'data', 'ghana_finance.db')
-LOG_PATH  = os.path.join(os.path.dirname(__file__), 'data', 'etl.log')
+DB_PATH   = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'ghana_finance.db')
+LOG_PATH  = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'etl.log')
 BASE_URL  = "https://api.worldbank.org/v2/country/GH/indicator"
 
 INDICATORS = {

@@ -1,14 +1,17 @@
 """
 ETL Pipeline Dashboard — Flask App
-Runs the pipeline on demand and shows results in browser.
 """
 from flask import Flask, render_template, jsonify, request
-import sqlite3, os, subprocess, json
+import sqlite3, os, subprocess, sys
 import pandas as pd
 
 app = Flask(__name__)
-DB = os.path.join(os.path.dirname(__file__), 'data', 'ghana_finance.db')
-LOG = os.path.join(os.path.dirname(__file__), 'data', 'etl.log')
+
+# Always resolve paths relative to this file — works on Render, Railway, local
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB  = os.path.join(BASE_DIR, 'data', 'ghana_finance.db')
+LOG = os.path.join(BASE_DIR, 'data', 'etl.log')
+PIPELINE = os.path.join(BASE_DIR, 'etl_pipeline.py')
 
 def qry(sql):
     if not os.path.exists(DB):
@@ -26,25 +29,31 @@ def index():
 @app.route('/run-pipeline', methods=['POST'])
 def run_pipeline():
     try:
+        # Use sys.executable so we always use the same Python/venv as Flask
         result = subprocess.run(
-            ['python', 'etl_pipeline.py'],
+            [sys.executable, PIPELINE],
             capture_output=True, text=True,
-            cwd=os.path.dirname(__file__), timeout=60
+            cwd=BASE_DIR, timeout=90
         )
-        return jsonify({'success': result.returncode == 0,
-                        'output': result.stdout + result.stderr})
+        success = result.returncode == 0
+        output  = result.stdout + result.stderr
+        return jsonify({'success': success, 'output': output})
+    except subprocess.TimeoutExpired:
+        return jsonify({'success': False, 'output': 'Pipeline timed out after 90 seconds.'})
     except Exception as e:
         return jsonify({'success': False, 'output': str(e)})
+
+@app.route('/api/full')
+def full():
+    df = qry("SELECT * FROM ghana_macro_indicators ORDER BY year")
+    if df.empty:
+        return jsonify({})
+    return jsonify(df.to_dict(orient='list'))
 
 @app.route('/api/summary')
 def summary():
     df = qry("SELECT * FROM macro_summary ORDER BY year")
     return jsonify(df.to_dict(orient='records'))
-
-@app.route('/api/full')
-def full():
-    df = qry("SELECT * FROM ghana_macro_indicators ORDER BY year")
-    return jsonify(df.to_dict(orient='list'))
 
 @app.route('/api/changes')
 def changes():
